@@ -7,4 +7,10 @@ class LightsnewparseSpider(scrapy.Spider):
     start_urls = ["https://svetilnik-online.ru/lustri"]
 
     def parse(self, response):
-        pass
+        lights = response.css('li.item')
+        for light in lights:
+            yield {
+                'name': light.css('a').attrib['title'],
+                'price': light.css('span.pprice::text').get(),
+                'link': light.css('a').attrib['href'],
+            }
