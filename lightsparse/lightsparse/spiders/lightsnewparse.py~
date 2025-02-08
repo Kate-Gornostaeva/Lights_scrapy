@@ -9,7 +9,7 @@ class LightsnewparseSpider(scrapy.Spider):
     custom_settings = {
         'FEED_URI': 'lights_data.csv',
         'FEED_FORMAT': 'csv',
-        'FEED_EXPORT_FIELDS': ["Наименование", "Цена", "Ссылка"],
+        'FEED_EXPORT_FIELDS': ["name", "price", "link"],
         'FEED_OVERWRITE': True,
     }
 
@@ -17,7 +17,7 @@ class LightsnewparseSpider(scrapy.Spider):
         lights = response.css('li.item')
         for light in lights:
             yield {
-                "Наименование": light.css('a').attrib['title'],
-                "Цена": light.css('span.pprice::text').get(),
-                "Ссылка": light.css('a').attrib['href'],
+                'name': light.css('a').attrib['title'],
+                'price': light.css('span.pprice::text').get(),
+                'link': light.css('a').attrib['href'],
             }
